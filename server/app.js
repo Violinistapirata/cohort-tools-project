@@ -29,6 +29,14 @@ app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
+app.get("/cohorts",(req, res)=>{
+  res.send("cohorts working ")
+});
+
+app.get("/students",(req, res)=>{
+  res.send("students working ")
+});
+
 
 // START SERVER
 app.listen(PORT, () => {
