@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const PORT = 5005;
+const MONGODB_URI = process.env.MONGODB_URI;
+require("dotenv").config();
 
 // STATIC DATA
 // Devs Team - Import the provided files with JSON data of students and cohorts here:
@@ -11,10 +13,12 @@ const PORT = 5005;
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
+
+// CONNECTION TO THE DDBB
 mongoose
-.connect("mongodb://127.0.0.1:27017/cohort-tools-project")
-.then(response => console.log(`Connected to Mongo! Database name: "${response.connections[0].name}"`))
-.catch(err => console.error("Error connecting to mongo", err))
+.connect(MONGODB_URI)
+.then((res) => console.log(`Connected to Mongo! Database name: "${response.connections[0].name}"`))
+.catch((err) => console.error("Error connecting to mongo", err))
 
 // MIDDLEWARE
 // Research Team - Set up CORS middleware here:
