@@ -40,6 +40,7 @@ app.use(cookieParser());
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
 // ...
+//COHORT ROUTES
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
@@ -53,7 +54,45 @@ app.get("api/cohorts/:cohortId",(req, res)=>{
   res.send()
 });
 
+//  COHORT POST ROUTES
 
+app.post("/api/cohorts", (req, res) => {
+  Cohort.create(req.body)
+    .then((cohort) => {
+      res.status(201).json(cohort);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+});
+
+// COHORT PUT ROUTES
+
+app.put("/api/cohorts/:cohortId", (req, res) => {
+  Cohort.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((cohort) => {
+      res.json(cohort);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+});
+
+// COHORT DELETE ROUTES
+
+app.delete("/api/cohorts/:cohortId", (req, res) => {
+  Cohort.findByIdAndDelete(req.params.id)
+    .then((cohort) => {
+      res.json(cohort);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+});
+
+
+
+// STUDENTS ROUTES
 app.get("api/students",(req, res)=>{
   Student.find();
   res.send();
@@ -67,6 +106,43 @@ app.get("api/students/cohort/:cohortId",(req, res)=>{
 
 app.get("api/students/:studentId",(req, res)=>{
   res.send();
+});
+
+// STUDENT POST ROUTES
+
+
+app.post("/api/students", (req, res) => {
+  Student.create(req.body)
+    .then((student) => {
+      res.status(201).json(student);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+});
+
+// STUDENT PUT ROUTES
+
+app.put("/api/students/:studentId", (req, res) => {
+  Student.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .then((student) => {
+      res.json(student);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+});
+
+// STUDENT DELETE ROUTES
+
+app.delete("/api/students/:studentId", (req, res) => {
+  Student.findByIdAndDelete(req.params.id)
+    .then((student) => {
+      res.json(student);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
 });
 
 
