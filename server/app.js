@@ -45,12 +45,17 @@ app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
-app.get("api/cohorts",(req, res)=>{
-  Cohort.find();
-  res.send();
+app.get("/api/cohorts",(req, res)=>{
+  Cohort.find().then((cohorts) => {
+    res.json(cohorts);
+  })
+  .catch((error) => {
+    res.status(400).json(error);
+  });
+  
 });
 
-app.get("api/cohorts/:cohortId",(req, res)=>{
+app.get("/api/cohorts/:cohortId",(req, res)=>{
   res.send()
 });
 
@@ -93,19 +98,33 @@ app.delete("/api/cohorts/:cohortId", (req, res) => {
 
 
 // STUDENTS ROUTES
-app.get("api/students",(req, res)=>{
-  Student.find();
-  res.send();
+app.get("/api/students",(req, res)=>{
+  Student.find().then((students) => {
+    res.json(students);
+  })
+  .catch((error) => {
+    res.status(400).json(error);
+  });
 });
 
 
-app.get("api/students/cohort/:cohortId",(req, res)=>{
-  res.send();
+app.get("/api/students/cohort/:cohortId",(req, res)=>{
+  Student.find(req.params.id).then((students) => {
+    res.json(students);
+  })
+  .catch((error) => {
+    res.status(400).json(error);
+  });
 });
 
 
-app.get("api/students/:studentId",(req, res)=>{
-  res.send();
+app.get("/api/students/:studentId",(req, res)=>{
+  Student.find(req.params.id).then((students) => {
+    res.json(students);
+  })
+  .catch((error) => {
+    res.status(400).json(error);
+  });
 });
 
 // STUDENT POST ROUTES
