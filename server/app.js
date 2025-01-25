@@ -4,6 +4,8 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const Cohort = require("./models/Cohort.model");
+const Student = require("./models/Student.model");
 
 // .ENV VARIABLES
 const MONGODB_URI = process.env.MONGODB_URI;
