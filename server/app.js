@@ -84,7 +84,7 @@ app.post("/api/cohorts", (req, res) => {
 // COHORT PUT ROUTES
 
 app.put("/api/cohorts/:cohortId", (req, res) => {
-  Cohort.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  Cohort.findByIdAndUpdate(req.params.cohortId, req.body, { new: true })
     .then((cohort) => {
       res.json(cohort);
     })
@@ -96,7 +96,7 @@ app.put("/api/cohorts/:cohortId", (req, res) => {
 // COHORT DELETE ROUTES
 
 app.delete("/api/cohorts/:cohortId", (req, res) => {
-  Cohort.findByIdAndDelete(req.params.id)
+  Cohort.findByIdAndDelete(req.params.cohortId)
     .then((cohort) => {
       res.json(cohort);
     })
@@ -160,7 +160,7 @@ app.post("/api/students", (req, res) => {
 // STUDENT PUT ROUTES
 
 app.put("/api/students/:studentId", (req, res) => {
-  Student.findByIdAndUpdate(req.params.id, req.body, { new: true })
+  Student.findByIdAndUpdate(req.params.studentId, req.body, { new: true })
     .then((student) => {
       res.json(student);
     })
@@ -172,7 +172,7 @@ app.put("/api/students/:studentId", (req, res) => {
 // STUDENT DELETE ROUTES
 
 app.delete("/api/students/:studentId", (req, res) => {
-  Student.findByIdAndDelete(req.params.id, )
+  Student.findByIdAndDelete(req.params.studentId)
     .then((student) => {
       res.json(student);
     })
@@ -180,19 +180,6 @@ app.delete("/api/students/:studentId", (req, res) => {
       res.status(400).json(error);
     });
 });
-
-
-app.delete("/api/students/:studentId", (req, res) => {
-Student.findByIdAndDelete(studentId)
-    .then(() => res.json({ message: `Project with ${studentId} is removed successfully.` }))
-    .catch((err) => {
-      console.log("Error while deleting the project", err);
-      res.status(500).json({ message: "Error while deleting the student" });
-    });
-  });
-
-
-
 
 
 // START SERVER
