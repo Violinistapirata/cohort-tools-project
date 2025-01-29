@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const Cohort = require("./models/Cohort.model");
 const Student = require("./models/Student.model");
+const CORS = require("cors");
 
 // .ENV VARIABLES
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -35,12 +36,14 @@ app.use(morgan("dev"));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(CORS());
 
 
 // ROUTES - https://expressjs.com/en/starter/basic-routing.html
 // Devs Team - Start working on the routes here:
 // ...
 //COHORT ROUTES
+
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
@@ -56,7 +59,14 @@ app.get("/api/cohorts",(req, res)=>{
 });
 
 app.get("/api/cohorts/:cohortId",(req, res)=>{
-  res.send()
+  Cohort.findById(req.params.cohortId)
+  .then((cohort)=>{
+    res.json(cohort)
+    
+  })
+  .catch((error) => {
+    res.status(400).json(error);
+  }); 
 });
 
 //  COHORT POST ROUTES
@@ -98,18 +108,23 @@ app.delete("/api/cohorts/:cohortId", (req, res) => {
 
 
 // STUDENTS ROUTES
-app.get("/api/students",(req, res)=>{
-  Student.find().then((students) => {
-    res.json(students);
-  })
-  .catch((error) => {
-    res.status(400).json(error);
-  });
+
+app.get("/api/students", (req, res) => {
+  Student.find()
+    .populate("cohort")
+    .then((students) => {
+      res.json(students);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
 });
 
 
 app.get("/api/students/cohort/:cohortId",(req, res)=>{
-  Student.find(req.params.id).then((students) => {
+  Student.find({cohort: req.params.cohortId})
+  .populate("cohort")
+  .then((students) => {
     res.json(students);
   })
   .catch((error) => {
@@ -119,7 +134,9 @@ app.get("/api/students/cohort/:cohortId",(req, res)=>{
 
 
 app.get("/api/students/:studentId",(req, res)=>{
-  Student.find(req.params.id).then((students) => {
+  Student.findById(req.params.studentId)
+  .populate("cohort")
+  .then((students) => {
     res.json(students);
   })
   .catch((error) => {
@@ -155,7 +172,7 @@ app.put("/api/students/:studentId", (req, res) => {
 // STUDENT DELETE ROUTES
 
 app.delete("/api/students/:studentId", (req, res) => {
-  Student.findByIdAndDelete(req.params.id)
+  Student.findByIdAndDelete(req.params.id, )
     .then((student) => {
       res.json(student);
     })
@@ -163,6 +180,19 @@ app.delete("/api/students/:studentId", (req, res) => {
       res.status(400).json(error);
     });
 });
+
+
+app.delete("/api/students/:studentId", (req, res) => {
+Student.findByIdAndDelete(studentId)
+    .then(() => res.json({ message: `Project with ${studentId} is removed successfully.` }))
+    .catch((err) => {
+      console.log("Error while deleting the project", err);
+      res.status(500).json({ message: "Error while deleting the student" });
+    });
+  });
+
+
+
 
 
 // START SERVER
