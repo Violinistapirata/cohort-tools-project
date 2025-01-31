@@ -62,7 +62,7 @@ app.get("/docs", (req, res) => {
 
 // Show the info of all the cohorts 
 app.get("/api/cohorts",(req, res)=>{
-  Cohort.find().then((cohorts) => {
+  Cohort.find(req.query).then((cohorts) => {
     res.json(cohorts);
   })
   .catch((error) => {
