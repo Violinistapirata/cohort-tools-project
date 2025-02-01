@@ -7,11 +7,10 @@
 const express = require("express"); //<-- To create the server
 const logger = require("morgan"); //<-- To console.log requests in the server terminal
 const CORS = require("cors"); //<-- To allow the front end to make requests to the server
-const cookieParser = require("cookie-parser"); //<-- ???
+const cookieParser = require("cookie-parser"); //<-- To create and manage cookies from request headers
 const mongoose = require("mongoose"); //<-- To connect to MongoDB
 
 // STATIC DATA (SCHEMA MODELS)
-// Devs Team - Import the provided files with JSON data of students and cohorts here: <-- THIS CAN BE DELETED
 const Cohort = require("./models/Cohort.model");
 const Student = require("./models/Student.model");
 
@@ -20,7 +19,7 @@ require("dotenv").config();
 const MONGODB_URI = process.env.MONGODB_URI;
 const PORT = process.env.PORT; //<--PORT=5005
 
-// INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express  <-- THIS URL CAN BE DELETED
+// INITIALIZE EXPRESS APP
 const app = express();
 
 // CONNECTION TO THE DDBB
@@ -28,8 +27,6 @@ mongoose
 .connect(MONGODB_URI)
 .then((res) => console.log(`Connected to Mongo! Database name: "${res.connections[0].name}"`))
 .catch((err) => console.error("Error connecting to mongo", err))
-
-// console.log(process.env.MONGODB_URI); <-- THIS CONSOLE LOG SHOULD BE DELETED
 
 
 
@@ -42,16 +39,13 @@ app.use(CORS());
 app.use(express.json()); //<-- Parses request query strings to json format
 app.use(logger("dev"));
 app.use(express.static("public")); //<-- configures access to the static files in this directory
-app.use(express.urlencoded({ extended: false })); //<-- ???
-app.use(cookieParser()); //<-- ???
+app.use(express.urlencoded({ extended: false })); //<-- Analizes the body of the POST and PUT requests and converts it to a format that the app can handle. "extended: false" means only primitive data types are analysed, not complex objects
+app.use(cookieParser());
 
 
 
 /* ----------------------- COHORTS ROUTES ----------------------- */
 
-
-// ROUTES - https://expressjs.com/en/starter/basic-routing.html <-- THIS CAN BE DELETED
-// Devs Team - Start working on the routes here:                <-- THIS CAN BE DELETED
 
 // GET
 
